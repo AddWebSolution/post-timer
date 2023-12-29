@@ -3,7 +3,7 @@
 /**
  * Timer Popup Class
  * @package   Post Timer
- * @author    Addweb Solution Pvt. Ltd.
+ * @author    AddWeb Solution
  * @license   GPL-2.0+
  * @link      http://www.addwebsolution.com
  * @copyright 2016 AddwebSolution Pvt. Ltd.
@@ -37,9 +37,19 @@ class ADDWEBPT_TIMER {
   public function addweb_pt_enable_popup() {
     $show_timer_popup = false;
     // add_action( 'admin_enqueue_scripts', array( $this, 'addweb_pt_enqueue_styles' ) );
-    if($this->options['addweb_pt_popup_active']) {
+    if(isset($this->options['addweb_pt_popup_active'])) {
       //Show popup when create new custom post.
       if($this->post_related_data['addweb_pt_url_page'] == 'post-new.php' && in_array($this->post_related_data['addweb_pt_query_string'] , $this->options['addweb_pt_popup_posts'])){
+        $show_timer_popup = true; 
+      }
+
+      //Create new user 
+      if(($this->post_related_data['addweb_pt_url_page'] == 'user-new.php' || ($this->post_related_data['addweb_pt_url_page'] == 'profile.php' || (isset($this->post_related_data['addweb_pt_action_query']) && $this->post_related_data['addweb_pt_action_query'] == 'edit'))) && in_array('user_request' , $this->options['addweb_pt_popup_posts'])){
+        $show_timer_popup = true; 
+      }
+
+      //navigation menu
+      if($this->post_related_data['addweb_pt_url_page'] == 'nav-menus.php' && in_array('wp_navigation', $this->options['addweb_pt_popup_posts'])){
         $show_timer_popup = true; 
       }
 
@@ -78,7 +88,7 @@ class ADDWEBPT_TIMER {
     $addweb_pt_popup_html .= '</div>';
     echo $addweb_pt_popup_html;
 
-    if($this->post_related_data['addweb_pt_url_page'] == 'post-new.php' || ($this->post_related_data['addweb_pt_url_page'] == 'post.php' && $this->post_related_data['addweb_pt_action_query'] == 'edit')){
+    if(empty($this->post_related_data['addweb_pt_query_string']) || $this->post_related_data['addweb_pt_url_page'] == 'post-new.php' || ($this->post_related_data['addweb_pt_url_page'] == 'post.php' && $this->post_related_data['addweb_pt_action_query'] == 'edit')){
       ?><script>
         jQuery(document).ready(function(){
           jQuery('.addweb-pt-timer-popup').click();
@@ -330,13 +340,33 @@ class ADDWEBPT_TIMER {
   }
 
   public function addweb_pt_get_post_page_related_data() {
-    $addweb_pt_url = $_SERVER['REQUEST_URI']; 
-    $data['addweb_pt_query_string'] = $_GET['post_type'];
-    $data['addweb_pt_action_query'] = $_GET['action'];
-    $data['addweb_post_type'] = get_post_type($_GET['post']);
-    $addweb_pt_url = substr($addweb_pt_url, strrpos($addweb_pt_url, '/') + 1);
-    list($data['addweb_pt_url_page'] , $addweb_pt_param) = explode("?", $addweb_pt_url);
-    return $data;
+    $addweb_pt_url = $_SERVER['REQUEST_URI'];
+    // $addweb_pt_url2 = substr($addweb_pt_url, strrpos($addweb_pt_url, '/') + 1);
+    // $dat3 = list($data['addweb_pt_url_page'] , $addweb_pt_param) = explode("?", $addweb_pt_url);
+    // print_r($dat3);exit();
+    $gets = parse_url($addweb_pt_url);
+    
+    if(isset($_GET['post_type'])){
+      $data['addweb_pt_query_string'] = $_GET['post_type'];
+    }
+    if(isset($_GET['action'])){
+      $data['addweb_pt_action_query'] = $_GET['action'];
+    }
+    if(isset($_GET['post'])){
+      $data['addweb_post_type'] = get_post_type($_GET['post']);
+    }
+    
+    if(isset($gets['query']))
+    {
+      $addweb_pt_url = substr($addweb_pt_url, strrpos($addweb_pt_url, '/') + 1);
+      list($data['addweb_pt_url_page'] , $addweb_pt_param) = explode("?", $addweb_pt_url);
+      return $data;
+    }else{
+      $addweb_pt_url = substr($addweb_pt_url, strrpos($addweb_pt_url, '/') + 1);
+      list($data['addweb_pt_url_page'] , $addweb_pt_param) = explode("?", $addweb_pt_url);
+      return $data;
+    }
+    
   }
 }
 

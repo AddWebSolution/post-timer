@@ -3,10 +3,10 @@
 /**
  * Timer Popup Class
  * @package   Post Timer
- * @author    Addweb Solution Pvt. Ltd.
+ * @author    AddWeb Solution
  * @license   GPL-2.0+
  * @link      http://www.addwebsolution.com
- * @copyright 2016 AddwebSolution Pvt. Ltd.
+ * @copyright 2016 AddWeb Solution
  **/
 
 /**
@@ -77,7 +77,7 @@ dashicons-clock' );
   /**
   * Register Default Setting When Plugin Activate
   **/
-  public function addweb_pt_setDefault_values(){
+  static function addweb_pt_setDefault_values(){
     $default_values = array(
       'addweb_pt_popup_active' => '1',
       'addweb_pt_popup_color' => '#0b73b0',
@@ -90,7 +90,7 @@ dashicons-clock' );
   /**
   * Delete Default Value When Plugin Deactivate
   **/
-  public function addweb_pt_deleteDefault_values() {
+  static function addweb_pt_deleteDefault_values() {
     delete_option( ADDWEBPT_TEXT_DOMAIN );
   }
 }

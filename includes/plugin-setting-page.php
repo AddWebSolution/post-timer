@@ -14,24 +14,31 @@ if( isset($_GET['settings-updated']) ) { ?>
   <p><strong>Settings saved.</strong></p>
   <button class="notice-dismiss" type="button"><span class="screen-reader-text">Dismiss this notice.</span></button>
 </div><?php } ?>
-<div class="pt-wrap" style="max-width: 1000px; width:100%;">
+<div class="pt-wrap">
   <div class="fa-plugin-setting">
     <ul>
       <li><a href = "#pt-setting"><?php _e('Settings', ADDWEBPT_TEXT_DOMAIN); ?></a></li>
       <li><a href = "#pt-about">About Us</a></li>
     </ul>
     <div id="pt-setting">
+
+    <div style="display:none;">
+        <a href="https://www.wewp.io/" style="outline: hidden;" target="_blank"><img src="<?php echo ADDWEBPT_PLUGIN_URL . '/assets/images/wewp-logo.png';?>" alt="WeWp" width="100%" ></a>
+      </div>
       <h2><?php _e( 'Timer Popup Settings', 'addweb-pt-timer-popup' );?></h2>
       <form method="post" action="options.php">
       <!-- form method="post" action="<?php //echo esc_url( admin_url( 'options-general.php?page='.$_GET['page'].'&header=true' ) ); ?>" enctype="multipart/form-data"> --><?php 
         settings_fields( ADDWEBPT_TEXT_DOMAIN );
         ?><div class="timer_popup_form">
-          <table class="form-table" width="100%">
+          <table class="form-table" width="100%" borde>
             <tr>
-              <th scope="row"></th>
+              <th scope="row">Enable</th>
               <td>
-                <input type="checkbox" name="<?php echo ADDWEBPT_TEXT_DOMAIN; ?>[addweb_pt_popup_active]" <?php echo ($addweb_pt_option['addweb_pt_popup_active']) ? 'checked="checked"' : ''; ?> id="addweb_pt_popup_active" value="1">&nbsp;<label for="addweb_pt_popup_active"><strong><?php _e( 'Enable', 'addweb-pt-timer-popup' );?></strong></label>
+                <input type="checkbox" name="<?php echo ADDWEBPT_TEXT_DOMAIN; ?>[addweb_pt_popup_active]" <?php echo ($addweb_pt_option['addweb_pt_popup_active']) ? 'checked="checked"' : ''; ?> id="addweb_pt_popup_active" value="1">
                 </td>
+                <td rowspan="4" align="right" valign="top">
+        <a href="http://www.wewp.io" style="outline: hidden;" target="_blank"><img src="<?php echo ADDWEBPT_PLUGIN_URL . '/assets/images/wewp-ad-plugin-400.png';?>" alt="WeWp" width="280px" ></a>
+      </td>
             </tr>
             <tr>
               <th scope="row"><label for="addweb_pt_popup_color"><?php _e( 'Popup Color', 'addweb-pt-timer-popup' );?></label></th>
@@ -47,22 +54,35 @@ if( isset($_GET['settings-updated']) ) { ?>
             </tr>
             <tr>
               <th scope="row"><label for="addweb_pt_popup_top_margin"><?php _e( 'Popup Top Margin', 'addweb-pt-timer-popup' );?></label></th>
-              <td><input type="number" name="<?php echo ADDWEBPT_TEXT_DOMAIN; ?>[addweb_pt_popup_top_margin]" id="addweb_pt_popup_top_margin" maxlength="255" size="25" value="<?php echo $addweb_pt_option['addweb_pt_popup_top_margin'];  ?>">%<br>
+              <td><input type="number" name="<?php echo ADDWEBPT_TEXT_DOMAIN; ?>[addweb_pt_popup_top_margin]" id="addweb_pt_popup_top_margin" maxlength="255" size="25" value="<?php echo $addweb_pt_option['addweb_pt_popup_top_margin']; ?>">%<br>
                 <small><?php _e('Top margin is only included if popup place Left or Right is selected. Please enter numeric value.'); ?></small></td>
             </tr>
-            <tr><th scope="row" colspan="2"><?php _e('Choose Where To Show Popup'); ?></th></tr><?php  
+            
+            </table><table class="form-table" width="100%"><tr>
+            <th scope="row" ><?php _e('Choose Where To Show Popup'); ?></th><?php  
+
+              $i_row = 0;  
               foreach ( get_post_types( array(), 'objects' ) as $addweb_pt_post_type ) { 
                 $addweb_pt_post_name = $addweb_pt_post_type->name;
-                $addweb_pt_post_remove = array('attachment','revision','nav_menu_item','ml-slider');
+                $addweb_pt_post_remove = array('attachment','revision','nav_menu_item','custom_css','customize_changeset','ml-slider','oembed_cache');
                 if(in_array($addweb_pt_post_name, $addweb_pt_post_remove)){ echo '';} else{
-                  ?><tr>
-                    <th scope="row"></th>
-                    <td><input type="checkbox" name="<?php echo ADDWEBPT_TEXT_DOMAIN; ?>[addweb_pt_popup_posts][]" id="<?php echo esc_attr( $addweb_pt_post_type->name ); ?>" value="<?php echo esc_attr( $addweb_pt_post_type->name ); ?>" <?php if(in_array($addweb_pt_post_type->name, $addweb_pt_option['addweb_pt_popup_posts']))  echo 'checked="checked"'; else '';?> />  <label for="<?php echo esc_attr( $addweb_pt_post_type->name ); ?>"><strong><?php echo esc_html( $addweb_pt_post_type->label ); ?></strong></label>
+
+                  echo $i_row%5 == 0 && $i_row !=0 ? '</tr><th scope="row"></th>' : '' ;
+                  ?>
+                    <td><input type="checkbox" name="<?php echo ADDWEBPT_TEXT_DOMAIN; ?>[addweb_pt_popup_posts][]" id="<?php echo esc_attr( $addweb_pt_post_type->name ); ?>" value="<?php echo esc_attr( $addweb_pt_post_type->name ); ?>" 
+
+                      <?php 
+                      if (is_array($addweb_pt_option['addweb_pt_popup_posts'])) {
+                        if(in_array($addweb_pt_post_type->name, $addweb_pt_option['addweb_pt_popup_posts']))  echo 'checked="checked"'; else ''; }
+                        ?> />
+                        <label for="<?php echo esc_attr( $addweb_pt_post_type->name ); ?>"><strong><?php echo esc_html( $addweb_pt_post_type->label ); ?></strong></label>
                     </td>
-                  </tr><?php 
+                  <?php 
+                  $i_row++;
+
                 } 
               }
-          ?></table>
+          ?></tr></table>
           <p class="submit">
              <?php submit_button(); ?>
           </p>
@@ -70,25 +90,35 @@ if( isset($_GET['settings-updated']) ) { ?>
       </form>
     </div>
     <div id="pt-about">
-      <div style="margin:0 auto;width:54%;">
-        <a href="http://www.addwebsolution.com" style="outline: hidden;" target="_blank"><img src="<?php echo ADDWEBPT_PLUGIN_URL . '/assets/images/addweb-logo.png';?>" alt="AddwebSolution" height=60px ></a>
-      </div><?php
+     <?php
       $arrAddwebPlugins = array(
-        'woo-cart-customizer' => 'Woo Cart Customizer',
-        'widget-social-share' => 'WSS: Widget Social Share',
-        'wp-all-in-one-social' => 'WP All In One Social',
-        'football-match-tracker' => 'Football Match Tracker',
-        'aws-cookies-popup' => 'AWS Cookies Popup'
+        'woo-cart-customizer' => 'Simple Customization of Add to Cart Button',
+        'aws-cookies-popup' => 'AWS Cookies Popup',
+        'addweb-google-popular-post' => 'Traffic Post Page Views',
+        'post-timer' => 'Post Timer',
+        'wc-past-orders' => 'Track Order History for WooCommerce',
+        'widget-social-share' => 'WSS: Widget Social Share'      
+        
       );?>
       <div class="advertise">
-      <div class="ad-heading">Visit Our Other Plugins:</div>
+      <h2><?php _e( 'Visit Our Other Plugins:', 'addweb-pt-timer-popup' );?></h2>
       <div class="ad-content"><?php
         foreach($arrAddwebPlugins as $slug=>$name) {?>
             <div class="ad-detail">
-              <a href="https://wordpress.org/plugins/<?php echo $slug;?>" target="_blank"><img src="<?php echo ADDWEBPT_PLUGIN_URL . '/assets/images/'.$slug;?>.svg"></a>
-              <a href="https://wordpress.org/plugins/<?php echo $slug;?>" class="ad-link" target="_blank"><?php echo $name;?></a>
+              <div class="ad-inner" >
+                <a href="https://wordpress.org/plugins/<?php echo $slug;?>" target="_blank"><img height="160" src="<?php echo ADDWEBPT_PLUGIN_URL . 'assets/images/'.$slug;?>.svg"></a>
+                <a href="https://wordpress.org/plugins/<?php echo $slug;?>" class="ad-link" target="_blank"><b><?php echo $name;?></b></a>
+              </div>
             </div><?php
         } ?></div>
+      </div>
+      
+      <div style="margin:5px 0;width:100%;text-align: center;">
+        <a href="http://www.wewp.io" style="outline: hidden;" target="_blank"><img src="<?php echo ADDWEBPT_PLUGIN_URL . '/assets/images/wewp-logo.png';?>" alt="WeWp" height="150px" width="100%" ></a>
+      </div>
+      <div style="margin:5px 0;width:100%;text-align: center;">
+      <h3>Developed with <img decoding="async" src="<?php echo ADDWEBPT_PLUGIN_URL . '/assets/images/Heart-yellow.svg';?>" alt="AddwebSolution"> By <a href="http://www.addwebsolution.com" style="outline: hidden;" target="_blank">ADDWEB SOLUTION</a></h3>
+        
       </div>
     </div>
   </div><?php

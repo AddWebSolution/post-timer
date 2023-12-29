@@ -2,10 +2,10 @@
 /**
  * Timer Popup Class
  * @package   Post Timer
- * @author    Addweb Solution Pvt. Ltd.
+ * @author    AddWeb Solution
  * @license   GPL-2.0+
  * @link      http://www.addwebsolution.com
- * @copyright 2016 AddwebSolution Pvt. Ltd.
+ * @copyright 2016 AddWeb Solution
  **/
 class addweb_pt_post_timer {
 
@@ -279,7 +279,7 @@ class addweb_pt_post_timer {
 								<tr><th scope="row" colspan="2">Choose Where To Show Popup</th></tr><?php  
 									foreach ( get_post_types( array(), 'objects' ) as $addweb_pt_post_type ) { 
 										$addweb_pt_post_name = $addweb_pt_post_type->name;
-										$addweb_pt_post_remove = array('attachment','revision','nav_menu_item','ml-slider');
+										$addweb_pt_post_remove = array('attachment','revision','nav_menu_item','ml-slider','oembed_cache');
 										if(in_array($addweb_pt_post_name, $addweb_pt_post_remove)){ echo '';} else{
 											?><tr>
 												<th scope="row"></th>
@@ -302,8 +302,8 @@ class addweb_pt_post_timer {
 					$arrAddwebPlugins = array(
 			      'woo-cart-customizer' => 'Woo Cart Customizer',
 			      'widget-social-share' => 'WSS: Widget Social Share',
-			      'wp-all-in-one-social' => 'WP All In One Social',
-			      'football-match-tracker' => 'Football Match Tracker',
+			      //'wp-all-in-one-social' => 'WP All In One Social',
+			      //'football-match-tracker' => 'Football Match Tracker',
 			      'aws-cookies-popup' => 'AWS Cookies Popup'
     			);?>
 			    <div class="advertise">

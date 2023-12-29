@@ -1,9 +1,9 @@
 === Post Timer ===
-Contributors: addweb-solution-pvt-ltd, saurabhdhariwal, snehalb890
+Contributors: saurabhdhariwal
 Tags: popup, timer popup, post timer, post, timer, clock, custom post timer
-Requires at least: 3.0.1
-Tested up to: 5.1
-Stable tag: 3.4
+Requires at least: 6.0
+Tested up to: 6.4.1
+Stable tag: 4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,7 +16,25 @@ You can change timer popup colour and popup place like left,right,top-left,top-r
 
 You can also show timer popup on selected post and custom posts.
 
+== Changelog ==
+= 4.0 =
+* Update settings & about us*
 
+== Changelog ==
+= 3.9 =
+* Update Author*
+
+= 3.8 =
+* Compatibility check with Wordpress 6.3
+
+= 3.7 =
+* UI fixes and enhancements
+
+= 3.6 =
+* Minor fixes and enhancements
+
+= 3.5 =
+* Minor fixes and enhancements
 
 == Installation ==
 
